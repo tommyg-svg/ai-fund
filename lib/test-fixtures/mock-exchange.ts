@@ -14,7 +14,7 @@ import {
   type TickerFixture, type BarFixture, type BalanceFixture,
   type OrderBookFixture, type OrderFixture, type TradeFixture,
   type MarketFixture,
-} from './market-data';
+} from './market-data.js';
 
 // ── Types ────────────────────────────────────────────────────
 

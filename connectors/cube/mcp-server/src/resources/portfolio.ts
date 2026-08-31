@@ -1,5 +1,5 @@
 import type { McpServer } from '@modelcontextprotocol/sdk/server/mcp.js';
-import type { IridiumClient } from '../client/iridium';
+import type { IridiumClient } from '../client/iridium.js';
 
 export function registerPortfolioResources(server: McpServer, iridium: IridiumClient) {
   server.resource(

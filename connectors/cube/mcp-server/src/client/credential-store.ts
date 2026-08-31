@@ -13,7 +13,7 @@ import { execFile } from 'node:child_process';
 import { readFile, writeFile, mkdir, unlink, appendFile } from 'node:fs/promises';
 import { join } from 'node:path';
 import { homedir, platform } from 'node:os';
-import type { SigningCredentials } from './signing';
+import type { SigningCredentials } from './signing.js';
 
 // ── Persistent Credential Audit Log ─────────────────────────
 //

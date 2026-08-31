@@ -1,4 +1,4 @@
-import { buildAuthHeaders, getEnvironment, resetAuth } from './auth';
+import { buildAuthHeaders, getEnvironment, resetAuth } from './auth.js';
 import { ASSET_ICONS } from '@ai-fund/lib/format';
 
 // ── Interval helpers ─────────────────────────────────────

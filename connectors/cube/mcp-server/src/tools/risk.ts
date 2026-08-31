@@ -1,6 +1,6 @@
 import type { McpServer } from '@modelcontextprotocol/sdk/server/mcp.js';
 import { z } from 'zod';
-import type { IridiumClient } from '../client/iridium';
+import type { IridiumClient } from '../client/iridium.js';
 import { kelly, fixedFractionalSize } from '@ai-fund/lib/math';
 
 export function registerRiskTools(server: McpServer, iridium: IridiumClient) {

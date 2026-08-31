@@ -1,6 +1,6 @@
 import type { McpServer } from '@modelcontextprotocol/sdk/server/mcp.js';
 import { z } from 'zod';
-import type { AlpacaClient, AlpacaBar } from '../client/api';
+import type { AlpacaClient, AlpacaBar } from '../client/api.js';
 import {
   sma, ema, rsi, macd, bollingerBands, atr, stochastic,
   type OHLCV,

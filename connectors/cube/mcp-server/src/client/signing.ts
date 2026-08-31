@@ -6,7 +6,7 @@ import {
   deleteCredentials,
   getBackendName,
   CREDENTIALS_FILE,
-} from './credential-store';
+} from './credential-store.js';
 
 // ── Credentials Path (re-exported for backward compat) ───
 const CREDENTIALS_PATH = CREDENTIALS_FILE;
