@@ -28,8 +28,31 @@ const BRIEFINGS = path.join(DESK, 'briefings');
 const WATCHLIST = ['SPY', 'AAPL', 'NVDA', 'TSLA', 'MSFT', 'AMD', 'META'];
 const LOOKBACK_DAYS = 60;
 const BREAKOUT_WINDOW = 20; // Livermore "pivotal point": clear the prior N-day high
-const VOLUME_MULTIPLE = 1.5; // on above-average volume
-const STOP_LOSS_PCT = 0.06; // 6% protective stop below entry
+
+interface RiskProfile {
+  label: string;
+  philosophy: string;
+  max_position_size_pct: number;
+  max_portfolio_drawdown_pct: number;
+  stop_loss_pct: number; // as a percent (e.g. 6, not 0.06)
+  breakout_volume_multiple: number;
+  pullback_band_pct: number; // as a percent
+  rsi_band: [number, number];
+}
+
+const FALLBACK_PROFILE: RiskProfile = {
+  label: 'Balanced', philosophy: 'Fallback default — .desk/risk.json had no profiles defined.',
+  max_position_size_pct: 5, max_portfolio_drawdown_pct: 10, stop_loss_pct: 6,
+  breakout_volume_multiple: 1.5, pullback_band_pct: 1.5, rsi_band: [40, 55],
+};
+
+/** Which profile to run under — defaults to risk.json's active_profile, or
+ * override with `npx tsx paper-trade-cycle.ts --profile aggressive`. */
+function resolveProfileName(risk: any): string {
+  const flagIdx = process.argv.indexOf('--profile');
+  if (flagIdx !== -1 && process.argv[flagIdx + 1]) return process.argv[flagIdx + 1];
+  return risk.active_profile ?? 'balanced';
+}
 
 function today() {
   return new Date().toISOString().slice(0, 10);
@@ -95,7 +118,11 @@ async function reconcilePendingStops(client: AlpacaClient) {
       if (!qty) continue; // still not filled — nothing to protect yet
 
       const fillPrice = parseFloat(filled.filled_avg_price ?? '0');
-      const stopPrice = (fillPrice * (1 - STOP_LOSS_PCT)).toFixed(2);
+      // Use the stop % that was decided at entry time (the profile active
+      // then), not whatever profile happens to be active during reconcile —
+      // a profile switch shouldn't retroactively change an open trade's stop.
+      const stopPct = (trade.stop_loss_pct_used ?? FALLBACK_PROFILE.stop_loss_pct) / 100;
+      const stopPrice = (fillPrice * (1 - stopPct)).toFixed(2);
       const stopOrder = await client.placeOrder({
         symbol: trade.symbol,
         side: 'sell',
@@ -119,9 +146,13 @@ async function reconcilePendingStops(client: AlpacaClient) {
 
 async function main() {
   const risk = readJson(RISK_FILE, { parameters: {} }) as {
+    active_profile?: string;
+    profiles?: Record<string, RiskProfile>;
     parameters?: { max_position_size_pct?: number; stop_loss_required?: boolean };
   };
-  const maxPositionPct = risk.parameters?.max_position_size_pct ?? 5;
+  const profileName = resolveProfileName(risk);
+  const profile: RiskProfile = risk.profiles?.[profileName] ?? FALLBACK_PROFILE;
+  console.log(`Risk profile: ${profile.label} — ${profile.philosophy}`);
 
   const creds = await loadCredentials();
   if (!creds) {
@@ -187,11 +218,16 @@ async function main() {
   const signals: Signal[] = [];
   for (const c of candidates) {
     const volRatio = c.todayVolume / c.avgVolume;
-    const breakoutSignal = c.price > c.priorHigh && volRatio >= VOLUME_MULTIPLE;
+    const breakoutSignal = c.price > c.priorHigh && volRatio >= profile.breakout_volume_multiple;
     // Swing pullback: established uptrend (price > 50d SMA), price has pulled
-    // back to within 1.5% of the 20d SMA (a classic "buy the dip to support"
-    // entry), and RSI is in a healthy 40-55 zone (not overbought, not breaking down).
-    const pullbackSignal = c.uptrend && Math.abs(c.pullbackPct) <= 0.015 && c.rsiValue >= 40 && c.rsiValue <= 55;
+    // back to within the profile's pullback band of the 20d SMA (a classic
+    // "buy the dip to support" entry), and RSI sits in the profile's healthy
+    // zone (not overbought, not breaking down). Conservative = tighter band,
+    // narrower RSI window, fewer but cleaner signals. Aggressive = looser on
+    // both, catching more (and noisier) moves.
+    const pullbackSignal = c.uptrend
+      && Math.abs(c.pullbackPct) <= profile.pullback_band_pct / 100
+      && c.rsiValue >= profile.rsi_band[0] && c.rsiValue <= profile.rsi_band[1];
 
     console.log(
       `  ${c.symbol.padEnd(5)} price=$${c.price.toFixed(2)} prior${BREAKOUT_WINDOW}dHigh=$${c.priorHigh.toFixed(2)} ` +
@@ -257,11 +293,10 @@ async function main() {
   const bestSignal = newSignals[0];
   const pick = bestSignal.candidate;
   const agentSlug = bestSignal.type === 'livermore-breakout' ? 'jesse-livermore' : 'swing-trader';
-  const maxNotional = equity * (maxPositionPct / 100);
-  const notional = Math.min(maxNotional, equity * 0.05).toFixed(2);
+  const notional = (equity * (profile.max_position_size_pct / 100)).toFixed(2);
 
   console.log(`\nSignal (${bestSignal.type}): ${pick.symbol} — ${bestSignal.rationale}`);
-  console.log(`Risk Manager: sizing at $${notional} (${maxPositionPct}% max position rule).`);
+  console.log(`Risk Manager (${profile.label}): sizing at $${notional} (${profile.max_position_size_pct}% max position rule).`);
 
   const entryOrder = await client.placeOrder({
     symbol: pick.symbol,
@@ -273,7 +308,7 @@ async function main() {
   console.log(`Entry order placed: ${entryOrder.id} — ${entryOrder.status}`);
 
   // Protective stop (Risk Manager requires one on every position).
-  const stopPrice = (pick.price * (1 - STOP_LOSS_PCT)).toFixed(2);
+  const stopPrice = (pick.price * (1 - profile.stop_loss_pct / 100)).toFixed(2);
   let stopOrder: any = null;
   try {
     // Wait briefly for the market order to fill so we know the exact qty.
@@ -304,6 +339,8 @@ async function main() {
     symbol: pick.symbol,
     strategy: bestSignal.type,
     rationale: bestSignal.rationale,
+    risk_profile: profileName,
+    stop_loss_pct_used: profile.stop_loss_pct,
     notional,
     entry_order_id: entryOrder.id,
     entry_status: entryOrder.status,
