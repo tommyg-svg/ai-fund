@@ -1,6 +1,6 @@
 import type { McpServer } from '@modelcontextprotocol/sdk/server/mcp.js';
 import { z } from 'zod';
-import type { IridiumClient } from '../client/iridium';
+import type { IridiumClient } from '../client/iridium.js';
 import type { OHLCV } from '@ai-fund/lib/indicators';
 import { detectConfluence, detectBbSqueeze } from '@ai-fund/lib/confluence-detector';
 import {

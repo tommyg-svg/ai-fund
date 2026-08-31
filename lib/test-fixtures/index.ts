@@ -5,12 +5,12 @@
  * canned market data, and HTTP record/replay into one package.
  */
 
-export { MockMcpServer, type RegisteredTool } from './mock-mcp-server';
+export { MockMcpServer, type RegisteredTool } from './mock-mcp-server.js';
 export {
   createMockExchangeClient,
   type MockCall,
   type MockExchangeOpts,
-} from './mock-exchange';
+} from './mock-exchange.js';
 export {
   mockFetch,
   mockFetchRouter,
@@ -18,12 +18,12 @@ export {
   type FetchCall,
   type MockRoute,
   type FetchFn,
-} from './mock-fetch';
+} from './mock-fetch.js';
 export {
   withCassette,
   cassette,
   type ReplayController,
-} from './http-replay';
+} from './http-replay.js';
 export {
   // Tickers
   TICKERS, ticker, allTickers, type TickerFixture,
@@ -41,4 +41,4 @@ export {
   MARKETS, type MarketFixture,
   // Constants
   BASE_TS,
-} from './market-data';
+} from './market-data.js';

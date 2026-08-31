@@ -1,4 +1,4 @@
-import { loadCredentials, importPrivateKey, signMessage, fromHex, encodePublicKey, type SigningCredentials } from './signing';
+import { loadCredentials, importPrivateKey, signMessage, fromHex, encodePublicKey, type SigningCredentials } from './signing.js';
 
 export type { SigningCredentials };
 

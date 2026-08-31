@@ -11,14 +11,14 @@
 import { createHash, randomBytes } from 'node:crypto';
 import { createServer, type IncomingMessage, type Server, type ServerResponse } from 'node:http';
 import type { Socket } from 'node:net';
-import { CUBE_HOST } from './auth';
+import { CUBE_HOST } from './auth.js';
 import {
   encodeVerificationKey,
   generateKeyPair,
   saveCredentials,
   toHex,
   type Ed25519KeyPair,
-} from './signing';
+} from './signing.js';
 
 // ── Types ────────────────────────────────────────────────────
 

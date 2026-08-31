@@ -5,8 +5,8 @@
  * (via MCP tools like get_price_history) into the local DuckDB store.
  */
 
-import { MarketDataStore, type OHLCVRow } from '../datastore';
-import type { OHLCV } from '../indicators';
+import { MarketDataStore, type OHLCVRow } from '../datastore.js';
+import type { OHLCV } from '../indicators.js';
 
 // ── Types ────────────────────────────────────────────────────
 

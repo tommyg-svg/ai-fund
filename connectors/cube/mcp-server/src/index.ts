@@ -2,19 +2,19 @@
 
 import { McpServer } from '@modelcontextprotocol/sdk/server/mcp.js';
 import { StdioServerTransport } from '@modelcontextprotocol/sdk/server/stdio.js';
-import { IridiumClient } from './client/iridium';
-import { OsmiumClient } from './client/osmium';
-import { MendelevClient } from './client/mendelev';
-import { resolveAuth } from './client/auth';
-import { registerMarketResources } from './resources/markets';
-import { registerPortfolioResources } from './resources/portfolio';
-import { registerAccountTools } from './tools/account';
-import { registerMarketDataTools } from './tools/market-data';
-import { registerOrderTools } from './tools/orders';
-import { registerRiskTools } from './tools/risk';
-import { registerAnalysisTools } from './tools/analysis';
-import { registerTradingTools } from './tools/defi';
-import { registerContentTools } from './tools/content';
+import { IridiumClient } from './client/iridium.js';
+import { OsmiumClient } from './client/osmium.js';
+import { MendelevClient } from './client/mendelev.js';
+import { resolveAuth } from './client/auth.js';
+import { registerMarketResources } from './resources/markets.js';
+import { registerPortfolioResources } from './resources/portfolio.js';
+import { registerAccountTools } from './tools/account.js';
+import { registerMarketDataTools } from './tools/market-data.js';
+import { registerOrderTools } from './tools/orders.js';
+import { registerRiskTools } from './tools/risk.js';
+import { registerAnalysisTools } from './tools/analysis.js';
+import { registerTradingTools } from './tools/defi.js';
+import { registerContentTools } from './tools/content.js';
 
 const server = new McpServer({
   name: 'cube-trading',

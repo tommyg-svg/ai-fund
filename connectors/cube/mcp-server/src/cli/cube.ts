@@ -10,18 +10,18 @@ import { fileURLToPath } from 'node:url';
 import { z } from 'zod';
 import type { ZodRawShape, ZodTypeAny } from 'zod';
 
-import { IridiumClient } from '../client/iridium';
-import { MendelevClient } from '../client/mendelev';
-import { OsmiumClient } from '../client/osmium';
-import type { OrderProgressEvent } from '../client/osmium';
-import { registerAccountTools } from '../tools/account';
-import { registerAnalysisTools } from '../tools/analysis';
-import { registerTradingTools } from '../tools/defi';
-import { registerMarketDataTools } from '../tools/market-data';
-import { registerOrderTools } from '../tools/orders';
-import { registerRiskTools } from '../tools/risk';
-import { registerMarketResources } from '../resources/markets';
-import { registerPortfolioResources } from '../resources/portfolio';
+import { IridiumClient } from '../client/iridium.js';
+import { MendelevClient } from '../client/mendelev.js';
+import { OsmiumClient } from '../client/osmium.js';
+import type { OrderProgressEvent } from '../client/osmium.js';
+import { registerAccountTools } from '../tools/account.js';
+import { registerAnalysisTools } from '../tools/analysis.js';
+import { registerTradingTools } from '../tools/defi.js';
+import { registerMarketDataTools } from '../tools/market-data.js';
+import { registerOrderTools } from '../tools/orders.js';
+import { registerRiskTools } from '../tools/risk.js';
+import { registerMarketResources } from '../resources/markets.js';
+import { registerPortfolioResources } from '../resources/portfolio.js';
 
 import packageJson from '../../package.json';
 

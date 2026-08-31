@@ -8,48 +8,157 @@
     "typecheck": "tsc --noEmit -p tsconfig.json"
   },
   "exports": {
-    "./indicators": "./indicators.ts",
-    "./math": "./math.ts",
-    "./format": "./format.ts",
-    "./datastore": "./datastore.ts",
-    "./backtester": "./backtester.ts",
-    "./regime-detector": "./regime-detector.ts",
-    "./signal-generator": "./signal-generator.ts",
-    "./connector-interface": "./connector-interface.ts",
-    "./confluence-detector": "./confluence-detector.ts",
-    "./connector-registry": "./connector-registry.ts",
-    "./valuation": "./valuation.ts",
-    "./volume-profile": "./volume-profile.ts",
-    "./execution-analytics": "./execution-analytics.ts",
-    "./execution-planner": "./execution-planner.ts",
-    "./grid-trading": "./grid-trading.ts",
-    "./options": "./options.ts",
-    "./monte-carlo": "./monte-carlo.ts",
-    "./portfolio-analytics": "./portfolio-analytics.ts",
-    "./sentiment": "./sentiment.ts",
-    "./portfolio-optimizer": "./portfolio-optimizer.ts",
-    "./factor-model": "./factor-model.ts",
-    "./funding": "./funding.ts",
-    "./order-flow": "./order-flow.ts",
-    "./liquidation": "./liquidation.ts",
-    "./microstructure": "./microstructure.ts",
-    "./stat-arb": "./stat-arb.ts",
-    "./time-series": "./time-series.ts",
-    "./venue-analytics": "./venue-analytics.ts",
-    "./analytics-store": "./analytics-store.ts",
-    "./ingest/exchange": "./ingest/exchange.ts",
-    "./ingest/yahoo": "./ingest/yahoo.ts",
-    "./test-fixtures": "./test-fixtures/index.ts",
-    "./test-fixtures/market-data": "./test-fixtures/market-data.ts",
-    "./test-fixtures/mock-mcp-server": "./test-fixtures/mock-mcp-server.ts",
-    "./test-fixtures/mock-exchange": "./test-fixtures/mock-exchange.ts",
-    "./test-fixtures/mock-fetch": "./test-fixtures/mock-fetch.ts",
-    "./test-fixtures/http-replay": "./test-fixtures/http-replay.ts"
+    "./indicators": {
+      "types": "./dist/indicators.d.ts",
+      "default": "./dist/indicators.js"
+    },
+    "./math": {
+      "types": "./dist/math.d.ts",
+      "default": "./dist/math.js"
+    },
+    "./format": {
+      "types": "./dist/format.d.ts",
+      "default": "./dist/format.js"
+    },
+    "./datastore": {
+      "types": "./dist/datastore.d.ts",
+      "default": "./dist/datastore.js"
+    },
+    "./backtester": {
+      "types": "./dist/backtester.d.ts",
+      "default": "./dist/backtester.js"
+    },
+    "./regime-detector": {
+      "types": "./dist/regime-detector.d.ts",
+      "default": "./dist/regime-detector.js"
+    },
+    "./signal-generator": {
+      "types": "./dist/signal-generator.d.ts",
+      "default": "./dist/signal-generator.js"
+    },
+    "./connector-interface": {
+      "types": "./dist/connector-interface.d.ts",
+      "default": "./dist/connector-interface.js"
+    },
+    "./confluence-detector": {
+      "types": "./dist/confluence-detector.d.ts",
+      "default": "./dist/confluence-detector.js"
+    },
+    "./connector-registry": {
+      "types": "./dist/connector-registry.d.ts",
+      "default": "./dist/connector-registry.js"
+    },
+    "./valuation": {
+      "types": "./dist/valuation.d.ts",
+      "default": "./dist/valuation.js"
+    },
+    "./volume-profile": {
+      "types": "./dist/volume-profile.d.ts",
+      "default": "./dist/volume-profile.js"
+    },
+    "./execution-analytics": {
+      "types": "./dist/execution-analytics.d.ts",
+      "default": "./dist/execution-analytics.js"
+    },
+    "./execution-planner": {
+      "types": "./dist/execution-planner.d.ts",
+      "default": "./dist/execution-planner.js"
+    },
+    "./grid-trading": {
+      "types": "./dist/grid-trading.d.ts",
+      "default": "./dist/grid-trading.js"
+    },
+    "./options": {
+      "types": "./dist/options.d.ts",
+      "default": "./dist/options.js"
+    },
+    "./monte-carlo": {
+      "types": "./dist/monte-carlo.d.ts",
+      "default": "./dist/monte-carlo.js"
+    },
+    "./portfolio-analytics": {
+      "types": "./dist/portfolio-analytics.d.ts",
+      "default": "./dist/portfolio-analytics.js"
+    },
+    "./sentiment": {
+      "types": "./dist/sentiment.d.ts",
+      "default": "./dist/sentiment.js"
+    },
+    "./portfolio-optimizer": {
+      "types": "./dist/portfolio-optimizer.d.ts",
+      "default": "./dist/portfolio-optimizer.js"
+    },
+    "./factor-model": {
+      "types": "./dist/factor-model.d.ts",
+      "default": "./dist/factor-model.js"
+    },
+    "./funding": {
+      "types": "./dist/funding.d.ts",
+      "default": "./dist/funding.js"
+    },
+    "./order-flow": {
+      "types": "./dist/order-flow.d.ts",
+      "default": "./dist/order-flow.js"
+    },
+    "./liquidation": {
+      "types": "./dist/liquidation.d.ts",
+      "default": "./dist/liquidation.js"
+    },
+    "./microstructure": {
+      "types": "./dist/microstructure.d.ts",
+      "default": "./dist/microstructure.js"
+    },
+    "./stat-arb": {
+      "types": "./dist/stat-arb.d.ts",
+      "default": "./dist/stat-arb.js"
+    },
+    "./time-series": {
+      "types": "./dist/time-series.d.ts",
+      "default": "./dist/time-series.js"
+    },
+    "./venue-analytics": {
+      "types": "./dist/venue-analytics.d.ts",
+      "default": "./dist/venue-analytics.js"
+    },
+    "./analytics-store": {
+      "types": "./dist/analytics-store.d.ts",
+      "default": "./dist/analytics-store.js"
+    },
+    "./ingest/exchange": {
+      "types": "./dist/ingest/exchange.d.ts",
+      "default": "./dist/ingest/exchange.js"
+    },
+    "./ingest/yahoo": {
+      "types": "./dist/ingest/yahoo.d.ts",
+      "default": "./dist/ingest/yahoo.js"
+    },
+    "./test-fixtures": {
+      "types": "./dist/test-fixtures/index.d.ts",
+      "default": "./dist/test-fixtures/index.js"
+    },
+    "./test-fixtures/market-data": {
+      "types": "./dist/test-fixtures/market-data.d.ts",
+      "default": "./dist/test-fixtures/market-data.js"
+    },
+    "./test-fixtures/mock-mcp-server": {
+      "types": "./dist/test-fixtures/mock-mcp-server.d.ts",
+      "default": "./dist/test-fixtures/mock-mcp-server.js"
+    },
+    "./test-fixtures/mock-exchange": {
+      "types": "./dist/test-fixtures/mock-exchange.d.ts",
+      "default": "./dist/test-fixtures/mock-exchange.js"
+    },
+    "./test-fixtures/mock-fetch": {
+      "types": "./dist/test-fixtures/mock-fetch.d.ts",
+      "default": "./dist/test-fixtures/mock-fetch.js"
+    },
+    "./test-fixtures/http-replay": {
+      "types": "./dist/test-fixtures/http-replay.d.ts",
+      "default": "./dist/test-fixtures/http-replay.js"
+    }
   },
   "files": [
-    "*.ts",
-    "ingest/*.ts",
-    "test-fixtures/*.ts"
+    "dist/**/*"
   ],
   "devDependencies": {
     "typescript": "^5.5.0"
