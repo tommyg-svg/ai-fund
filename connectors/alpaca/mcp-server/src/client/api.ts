@@ -310,12 +310,17 @@ export class AlpacaClient {
     start?: string;
     end?: string;
     limit?: number;
+    /** Data feed to query. Free-tier/paper accounts without a SIP subscription
+     * must pass 'iex' — the default (unset) feed is 'sip', which 403s for
+     * accounts that don't have that entitlement. */
+    feed?: 'iex' | 'sip' | 'otc' | 'boats' | 'overnight';
   }): Promise<AlpacaBar[]> {
     const params = new URLSearchParams();
     params.set('timeframe', opts.timeframe);
     if (opts.start) params.set('start', opts.start);
     if (opts.end) params.set('end', opts.end);
     if (opts.limit) params.set('limit', String(opts.limit));
+    if (opts.feed) params.set('feed', opts.feed);
 
     const res = await this.dataRequest<{ bars: AlpacaBar[]; next_page_token: string | null }>(
       'GET',

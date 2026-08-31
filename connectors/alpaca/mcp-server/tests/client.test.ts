@@ -434,6 +434,22 @@ describe('getBars', () => {
     expect(url).toContain('start=2024-01-01');
     expect(url).toContain('end=2024-01-31');
   });
+
+  it('passes feed param when provided (e.g. free-tier accounts must use iex, not the paid sip default)', async () => {
+    const fetch = mockFetch([{ body: { bars: [], next_page_token: null } }]);
+    const client = new AlpacaClient({ apiKey: 'k', apiSecret: 's', fetchFn: fetch });
+    await client.getBars('AAPL', { timeframe: '1Day', limit: 10, feed: 'iex' });
+
+    expect(fetch.calls[0].url).toContain('feed=iex');
+  });
+
+  it('omits feed param when not provided', async () => {
+    const fetch = mockFetch([{ body: { bars: [], next_page_token: null } }]);
+    const client = new AlpacaClient({ apiKey: 'k', apiSecret: 's', fetchFn: fetch });
+    await client.getBars('AAPL', { timeframe: '1Day', limit: 10 });
+
+    expect(fetch.calls[0].url).not.toContain('feed=');
+  });
 });
 
 describe('getLatestQuote', () => {
